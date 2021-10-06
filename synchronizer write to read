@@ -1,0 +1,17 @@
+module sync_w2r #(parameter add_size = 4)
+(output reg [add_size:0] wr_ptr_sync,
+input [add_size:0] wr_ptr,
+input rd_clk, rd_rst);
+reg [add_size:0] rq1_wptr;
+always @(posedge rd_clk or posedge rd_rst)
+if (rd_rst)
+begin
+wr_ptr_sync<=0;
+rq1_wptr<=0; 
+end
+else 
+begin
+wr_ptr_sync <=rq1_wptr;
+rq1_wptr<= wr_ptr;
+end
+endmodule
